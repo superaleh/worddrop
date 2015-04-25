@@ -1,0 +1,44 @@
+<head>
+  <title>Reactive RubaXa:Sortable for Meteor</title>
+</head>
+
+<body>
+
+  <div class="container">
+    <div class="page-header">
+      <h1><b>Word</b>able</h1>
+      <h2>Командные соревнования по составлению предложений</h2>
+    </div>
+
+    {{> words}}
+  </div>
+</body>
+
+<template name="words">
+
+  <div class="row">
+    <div class="list-pair col-sm-12">
+
+      <div class="sortable source list-group" id="types">
+        {{#sortable items=words options=wordsOptions}}
+          {{>word}}
+        {{/sortable}}
+      </div>
+
+      <div class="sortable target" id="object">
+        {{#sortable items=sentence animation="100" options=sentenceOptions}}
+          {{> word}}
+        {{/sortable}}
+      </div>
+
+    </div>
+  </div>
+
+</template>
+
+<template name="word">
+  <div data-id="{{order}}" class="sortable-item well well-sm">
+    <span class="name">{{name}}</span>
+    <span class="badge">{{order}}</span>
+  </div>
+</template>
