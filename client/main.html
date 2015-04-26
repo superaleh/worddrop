@@ -30,7 +30,6 @@
 
       <div class="eight wide column" id="team1">
             {{#if currentStatus}}
-            {{#if wordsCount}}
           <h3 class="ui top attached header">
               Слова:
           </h3>
@@ -39,8 +38,7 @@
                   {{>word}}
               {{/sortable}}
           </div>
-          {{/if}}
-          <h3 class="ui {{#if wordsCount}}{{else}}top{{/if}} attached header">
+          <h3 class="ui attached header">
               Предложение:
           </h3>
           <div class="ui inverted attached segment">
