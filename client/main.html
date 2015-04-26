@@ -1,44 +1,76 @@
 <head>
-  <title>Reactive RubaXa:Sortable for Meteor</title>
+  <title>Wordable</title>
 </head>
 
 <body>
-
-  <div class="container">
-    <div class="page-header">
-      <h1><b>Word</b>able</h1>
-      <h2>Командные соревнования по составлению предложений</h2>
+<div class="ui page grid">
+    <div class="ui inverted menu">
+        <div class="header teal item">
+            Word<span class="subheader">able</span> - составляй рандомные предложения из рандомных слов.
+        </div>
+        <div class="right menu">
+            <a class="item">
+                Войти
+            </a>
+        </div>
     </div>
-
+    <div class="sixteen wide column" id="sentence-input">
+    <form class="ui form new-sentence">
+        <div class="field">
+            <input type="text" name="text" placeholder="Введите новое предложение и нажмите Enter">
+        </div>
+    </form>
+    </div>
     {{> words}}
-  </div>
+</div>
 </body>
 
 <template name="words">
 
-  <div class="row">
-    <div class="list-pair col-sm-12">
 
-      <div class="sortable source list-group" id="types">
-        {{#sortable items=words options=wordsOptions}}
-          {{>word}}
-        {{/sortable}}
-      </div>
+      <div class="eight wide column" id="team1">
+            {{#if currentStatus}}
+            {{#if wordsCount}}
+          <h3 class="ui top attached header">
+              Слова:
+          </h3>
+          <div class="ui inverted attached segment">
+              {{#sortable items=words animation="100" options=wordsOptions}}
+                  {{>word}}
+              {{/sortable}}
+          </div>
+          {{/if}}
+          <h3 class="ui {{#if wordsCount}}{{else}}top{{/if}} attached header">
+              Предложение:
+          </h3>
+          <div class="ui inverted attached segment">
 
-      <div class="sortable target" id="object">
-        {{#sortable items=sentence animation="100" options=sentenceOptions}}
-          {{> word}}
-        {{/sortable}}
+                  {{#sortable items=inboxWords animation="100" options=inboxOptions}}
+                      {{> inbox}}
+                  {{/sortable}}
+
+          </div>
+          <div class="ui bottom attached segment">
+              <p><b>Статус:</b> {{{currentStatus}}}</p>
+          </div>
+          {{/if}}
       </div>
+      <div class="eight wide column" id="team2">
 
     </div>
-  </div>
+    <div class="ui divider"></div>
+
 
 </template>
-
 <template name="word">
-  <div data-id="{{order}}" class="sortable-item well well-sm">
-    <span class="name">{{name}}</span>
-    <span class="badge">{{order}}</span>
-  </div>
+    <a class="ui large label">
+        {{name}}
+    </a>
+
 </template>
+<template name="inbox">
+    <a data-id="{{order}}" class="ui large teal label">
+        {{name}}
+    </a>
+</template>
+
