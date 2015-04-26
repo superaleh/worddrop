@@ -27,7 +27,7 @@ Template.body.events({
   }
 });
 
-Template.words.helpers({
+Template.playerWindow.helpers({
   words: function () {
     return Words.find({}, { sort: { order: 1 } });
   },

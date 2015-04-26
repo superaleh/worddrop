@@ -21,45 +21,13 @@
         </div>
     </form>
     </div>
-    {{> words}}
+    {{> playerWindow}}
+    {{> playerWindow}}
+    <div class="ui divider"></div>
+    {{> playerWindow}}
+    {{> playerWindow}}
 </div>
 </body>
-
-<template name="words">
-
-
-      <div class="eight wide column" id="team1">
-            {{#if currentStatus}}
-          <h3 class="ui top attached header">
-              Слова:
-          </h3>
-          <div class="ui inverted attached segment">
-              {{#sortable items=words animation="100" options=wordsOptions}}
-                  {{>word}}
-              {{/sortable}}
-          </div>
-          <h3 class="ui attached header">
-              Предложение:
-          </h3>
-          <div class="ui inverted attached segment">
-
-                  {{#sortable items=inboxWords animation="100" options=inboxOptions}}
-                      {{> inbox}}
-                  {{/sortable}}
-
-          </div>
-          <div class="ui bottom attached segment">
-              <p><b>Статус:</b> {{{currentStatus}}}</p>
-          </div>
-          {{/if}}
-      </div>
-      <div class="eight wide column" id="team2">
-
-    </div>
-    <div class="ui divider"></div>
-
-
-</template>
 <template name="word">
     <a class="ui large label">
         {{name}}
@@ -71,4 +39,30 @@
         {{name}}
     </a>
 </template>
+<template name="playerWindow">
+    <div class="eight wide column" id="team1">
+        {{#if currentStatus}}
+            <h3 class="ui top attached header">
+                Слова:
+            </h3>
+            <div class="ui inverted attached segment">
+                {{#sortable items=words animation="100" options=wordsOptions}}
+                    {{>word}}
+                {{/sortable}}
+            </div>
+            <h3 class="ui attached header">
+                Предложение:
+            </h3>
+            <div class="ui inverted attached segment">
 
+                {{#sortable items=inboxWords animation="100" options=inboxOptions}}
+                    {{> inbox}}
+                {{/sortable}}
+
+            </div>
+            <div class="ui bottom attached segment">
+                <p><b>Статус:</b> {{{currentStatus}}}</p>
+            </div>
+        {{/if}}
+    </div>
+</template>
