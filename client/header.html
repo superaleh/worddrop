@@ -12,9 +12,7 @@
                     {{username}} <i class="sign out icon"></i>
                 </a>
             {{else}}
-                <a class="item" href="{{pathFor 'signForm'}}">
-                    Войти <i class="sign in icon"></i>
-                </a>
+                    {{> loginButtons}}
             {{/if}}
 
         </div>

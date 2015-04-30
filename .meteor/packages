@@ -6,6 +6,8 @@
 meteor-platform
 insecure
 
+iandouglas:accounts-ui-semantic-ui
+accounts-ui
 iron:router
 rubaxa:sortable
 semantic:ui-css
