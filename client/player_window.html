@@ -1,0 +1,59 @@
+<template name="playerWindow">
+
+    {{#if currentStatus}}
+        <div class="{{#if thisIsMine}}eight{{else}}four{{/if}} wide column">
+            <div class="ui segment">
+                {{#if thisIsMine}}
+                {{else}}
+            <div class="ui active dimmer">
+                <div class="content">
+                    <div class="center"><h3 class="ui inverted icon header">
+                        {{> avatar user=this class="super-large"}}
+                        {{username}}</h3>
+                    </div>
+                </div>
+            </div>
+                {{/if}}
+            <h3 class="ui top attached header">
+                Слова:
+            {{#if thisIsMine}}
+                <div class="username myname"> {{username}}</div>
+                {{> avatar user=this size="small" class="player" shape="circle"}}
+            {{/if}}
+            </h3>
+            <div class="ui inverted attached segment">
+                <div class="{{#if thisIsMine}}{{else}}invisible{{/if}}">
+                {{#sortable items=words animation="100" options=wordsOptions}}
+                    {{>word}}
+                {{/sortable}}
+                </div>
+            </div>
+            <h3 class="ui attached header">
+                Предложение:
+            </h3>
+            <div class="ui inverted attached segment">
+                {{#if thisIsMine}}
+                {{#sortable items=inboxWords animation="100" options=inboxOptions}}
+                    {{> inbox}}
+                {{/sortable}}
+                {{/if}}
+            </div>
+            <div class="ui bottom attached segment">
+                <p><b>Статус:</b> {{{currentStatus}}}</p>
+            </div>
+            </div>
+        </div>
+    {{/if}}
+</template>
+
+<template name="word">
+    <a class="ui large label">
+        {{name}}
+    </a>
+</template>
+
+<template name="inbox">
+    <a data-id="{{order}}" class="ui large teal label">
+        {{name}}
+    </a>
+</template>

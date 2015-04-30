@@ -1,0 +1,22 @@
+<template name="header">
+    <div class="ui inverted menu">
+        <div class="header teal item">
+            Word<span class="subheader">able</span> - составляй случайные предложения из случайных слов
+        </div>
+        <div class="right menu">
+            {{#if currentUser}}
+                <div class="item item-avatar">
+                    {{> avatar user=user size="extra-small"}}
+                </div>
+                <a class="item" id="logout">
+                    {{username}} <i class="sign out icon"></i>
+                </a>
+            {{else}}
+                <a class="item" href="{{pathFor 'signForm'}}">
+                    Войти <i class="sign in icon"></i>
+                </a>
+            {{/if}}
+
+        </div>
+    </div>
+</template>

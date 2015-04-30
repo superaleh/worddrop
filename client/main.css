@@ -14,3 +14,35 @@
 .ui.menu:first-child {
  margin-top: 0.8rem;
 }
+
+.ui.menu .item.item-avatar {
+  padding:0.6em
+}
+
+.myname {
+ color:green;
+}
+.ui.top.attached.header .username {
+ float:right;
+}
+.avatar.player {
+ float:right;
+ margin: -2px 5px 0px 0px;
+}
+
+.avatar.super-large {
+ height: 10rem;
+ width: 10rem;
+}
+
+.ui.active.dimmer {
+ opacity:1
+}
+
+.ui.dimmer {
+ background: rgba(0, 0, 0, 0.90);
+}
+
+.invisible {
+ display:none;
+}

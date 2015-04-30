@@ -1,0 +1,12 @@
+<template name="playground">
+    <div class="sixteen wide column" id="sentence-input">
+        <form class="ui form new-sentence">
+            <div class="field">
+                <input type="text" name="text" placeholder="Введите новое предложение и нажмите Enter">
+            </div>
+        </form>
+    </div>
+    {{#each users}}
+        {{> playerWindow}}
+    {{/each}}
+</template>

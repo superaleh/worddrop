@@ -1,4 +1,4 @@
-Template.body.events({
+Template.playground.events({
   'submit .new-sentence': function (e) {
     e.preventDefault();
     // deactivate previous sentence and delete previous words
@@ -13,62 +13,103 @@ Template.body.events({
         Inbox.remove(word._id);
       });
       Sentences.update(previousSentenceId, {$set: {active: false}});
+      console.log('previous are cleared');
     }
     // get new sentence value, insert it and its words into database
     var sentence = e.target.text.value;
     var sentenceId = Sentences.insert({text:sentence, active:true});
     var wordsFromSentence = sentence.split(" ");
-    var wordsFromSentenceShuffled = _.shuffle(wordsFromSentence)
-    _.each(wordsFromSentenceShuffled, function (word) {
-      Words.insert({name:word,sentenceId:sentenceId});
+    var users = Meteor.users.find().fetch();
+    var userIds = _.pluck(users, '_id');
+    console.log("ids: "+userIds);
+    var wordsFromSentenceShuffled = _.shuffle(wordsFromSentence);
+    _.each(userIds, function (userId) {
+      _.each(wordsFromSentenceShuffled, function (word) {
+        Words.insert({name:word,sentenceId:sentenceId,userId:userId});
+      });
     });
     //clear input field
     e.target.text.value = "";
   }
 });
 
-Template.playerWindow.helpers({
-  words: function () {
-    return Words.find({}, { sort: { order: 1 } });
+Template.playground.helpers({
+  'users': function () {
+    return Meteor.users.find({ "status.online": true });
   },
-  wordsOptions: {
-    group: {
-      name: 'game',
-      pull: true,
-      put: false
-    },
-    sort: false,
-    onRemove: function (event) {
-      Words.remove(event.data._id);
+  'username': function () {
+    var user = Meteor.users.findOne(Meteor.userId());
+    return user.username || user.profile.name;
+  }
+});
+
+Template.playerWindow.helpers({
+  'thisIsMine': function () {
+    return this._id === Meteor.userId()
+  },
+  'username': function () {
+    var user = Meteor.users.findOne(this._id);
+    return user.username || user.profile.name;
+  },
+  words: function () {
+    return Words.find({userId:this._id}, { sort: { order: 1 } });
+  },
+  wordsOptions: function () {
+    return {
+      group: {
+        name: "user "+this._id,
+        pull: true,
+        put: false
+      },
+      sort: false,
+      onRemove: function (event) {
+        Words.remove(event.data._id);
+      }
     }
   },
-  wordsCount: function () {
-    return Words.find().fetch().length !== 0;
-  },
   inboxWords: function () {
-    return Inbox.find({}, { sort: { order: 1 } });
+    return Inbox.find({userId:this._id}, { sort: { order: 1 } });
   },
-  inboxOptions: {
-    group: {
-      name: 'game',
-      put: true
+  inboxOptions: function () {
+    return {
+      group: {
+        name: "user "+this._id,
+        put: true
+      }
     }
   },
   currentStatus : function () {
     if (Sentences.findOne({active:true})) {
-      var array = Inbox.find({}, {sort: {order: 1}}).fetch();
+      var array = Inbox.find({userId:this._id}, {sort: {order: 1}}).fetch();
       var onlyText = _.pluck(array, 'name');
       var text = onlyText.join(" ");
       var currentSentence = Sentences.findOne({active: true}).text;
       if (text === currentSentence) {
-        return "<span style='color:green'>Ты большой молодец! :) </span>"
-      } else if (Words.find().fetch().length !== 0) {
-        return "Добавьте все слова";
+        return "<span style='color:green'>Готово! :) </span>"
+      } else if (Words.find({userId:this._id}).fetch().length !== 0) {
+        return "Нужно добавить все слова";
       } else {
-        return "<span style='color:rgb(177, 65, 65)'>Нужно изменить прорядок слов</span>";
+        return "<span style='color:rgb(177, 65, 65)'>Неправильный порядок слов :(</span>";
       }
     } else {
       return false;
     }
+  }
+});
+
+Template.header.events({
+  'click #logout': function () {
+    AccountsTemplates.logout();
+  }
+});
+
+
+Template.header.helpers({
+  'username': function () {
+    var user = Meteor.users.findOne(Meteor.userId());
+    return user.username || user.profile.name;
+  },
+  'user': function () {
+    return Meteor.users.findOne(Meteor.userId());
   }
 });
